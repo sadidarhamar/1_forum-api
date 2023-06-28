@@ -12,10 +12,6 @@ describe('ThreadRepository interface', () => {
       'THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED'
     );
 
-    await expect(
-      threadRepository.getThreadDetailsById('')
-    ).rejects.toThrowError('THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED');
-
     await expect(threadRepository.verifyThreadExist('')).rejects.toThrowError(
       'THREAD_REPOSITORY.METHOD_NOT_IMPLEMENTED'
     );

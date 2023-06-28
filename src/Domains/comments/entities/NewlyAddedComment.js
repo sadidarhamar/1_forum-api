@@ -11,7 +11,7 @@ class NewlyAddedComment {
 
   _verifyPayload({ id, content, owner }) {
     if (!id || !content || !owner) {
-      throw new Error('NEWLY_ADDED_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
+      throw new Error('NEWLY_ADDED_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY');
     }
 
     if (
@@ -19,7 +19,7 @@ class NewlyAddedComment {
       typeof content !== 'string' ||
       typeof owner !== 'string'
     ) {
-      throw new Error('NEWLY_ADDED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+      throw new Error('NEWLY_ADDED_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
   }
 }

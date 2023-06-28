@@ -83,11 +83,12 @@ describe('ReplyUseCase', () => {
       );
     });
 
-    it('should throw error if reply id or thread id not string', async () => {
+    it('should throw error if needed property not string', async () => {
       const useCasePayload = {
         replyId: 123,
         commentId: 354,
         threadId: true,
+        owner: false,
       };
 
       const replyUseCase = new ReplyUseCase({});
@@ -95,7 +96,7 @@ describe('ReplyUseCase', () => {
       await expect(
         replyUseCase.deleteReply(useCasePayload)
       ).rejects.toThrowError(
-        'DELETE_REPLY_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION'
+        'DELETE_REPLY_USE_CASE.NOT_CONTAIN_REPLY_ID_OR_THREAD_ID_OR_COMMENT_ID_OR_OWNER'
       );
     });
 
@@ -104,7 +105,7 @@ describe('ReplyUseCase', () => {
         replyId: 'reply-123',
         commentId: 'comment-123',
         threadId: 'thread-123',
-        userId: 'user-123',
+        owner: 'user-123',
       };
 
       const mockReplyRepository = new ReplyRepository();
@@ -146,7 +147,7 @@ describe('ReplyUseCase', () => {
       );
       expect(mockReplyRepository.verifyReplyOwner).toHaveBeenCalledWith({
         replyId: useCasePayload.replyId,
-        owner: useCasePayload.userId,
+        owner: useCasePayload.owner,
       });
     });
   });

@@ -20,8 +20,7 @@ const BcryptPasswordHash = require('./security/BcryptPasswordHash');
 
 const ReplyUseCase = require('../Applications/use_case/ReplyUseCase');
 const CommentUseCase = require('../Applications/use_case/CommentUseCase');
-const AddThreadUseCase = require('../Applications/use_case/AddThreadUseCase');
-const GetThreadDetailsByIdUseCase = require('../Applications/use_case/GetThreadDetailsByIdUseCase');
+const ThreadUseCase = require('../Applications/use_case/ThreadUseCase');
 const AddUserUseCase = require('../Applications/use_case/AddUserUseCase');
 const AuthenticationTokenManager = require('../Applications/security/AuthenticationTokenManager');
 const JwtTokenManager = require('./security/JwtTokenManager');
@@ -200,14 +199,22 @@ container.register([
     },
   },
   {
-    key: AddThreadUseCase.name,
-    Class: AddThreadUseCase,
+    key: ThreadUseCase.name,
+    Class: ThreadUseCase,
     parameter: {
       injectType: 'destructuring',
       dependencies: [
         {
           name: 'threadRepository',
           internal: ThreadRepository.name,
+        },
+        {
+          name: 'replyRepository',
+          internal: ReplyRepository.name,
+        },
+        {
+          name: 'commentRepository',
+          internal: CommentRepository.name,
         },
       ],
     },
@@ -246,27 +253,6 @@ container.register([
         {
           name: 'threadRepository',
           internal: ThreadRepository.name,
-        },
-      ],
-    },
-  },
-  {
-    key: GetThreadDetailsByIdUseCase.name,
-    Class: GetThreadDetailsByIdUseCase,
-    parameter: {
-      injectType: 'destructuring',
-      dependencies: [
-        {
-          name: 'threadRepository',
-          internal: ThreadRepository.name,
-        },
-        {
-          name: 'replyRepository',
-          internal: ReplyRepository.name,
-        },
-        {
-          name: 'commentRepository',
-          internal: CommentRepository.name,
         },
       ],
     },

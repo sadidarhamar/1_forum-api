@@ -126,6 +126,7 @@ describe('ReplyRepositoryPostgres', () => {
         replyId: 'reply-123',
         commentId: 'comment-123',
         threadId: 'thread-123',
+        owner: 'user-123',
       });
 
       const reply = await RepliesTableTestHelper.findRepliesById('reply-123');

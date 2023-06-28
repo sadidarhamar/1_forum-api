@@ -22,6 +22,7 @@ class ReplyUseCase {
     await this._commentRepository.verifyCommentExist(commentId);
     await this._replyRepository.verifyReplyExist(replyId);
     await this._replyRepository.verifyReplyOwner({ replyId, owner });
+
     await this._replyRepository.deleteReply({ replyId, threadId, commentId });
   }
 }
