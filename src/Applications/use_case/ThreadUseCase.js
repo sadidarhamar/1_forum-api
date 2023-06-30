@@ -13,12 +13,9 @@ class ThreadUseCase {
   }
 
   async getThreadDetailsById(useCasePayload) {
-    const thread = await this._threadRepository.getThreadById(
-      useCasePayload.threadId
-    );
-
+    const thread = await this._threadRepository.getThreadById(useCasePayload);
     const comments = await this._commentRepository.getCommentsByThreadId(
-      useCasePayload.threadId
+      useCasePayload
     );
 
     const repliedComment = await Promise.all(
@@ -49,9 +46,11 @@ class ThreadUseCase {
           date: comment.date,
           replies: filteredReplies,
           content: comment.content,
+          is_delete: comment.is_delete,
         };
       })
     );
+
     const filteredComment = repliedComment
       .map((obj) => {
         if (obj.is_delete) {
@@ -73,6 +72,7 @@ class ThreadUseCase {
         }
       })
       .filter(({ is_delete }) => !is_delete);
+
     return {
       ...thread,
       comments: filteredComment,

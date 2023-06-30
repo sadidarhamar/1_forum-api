@@ -73,6 +73,7 @@ describe('CommentUseCase', () => {
       const useCasePayload = {
         commentId: 123,
         threadId: true,
+        owner: true,
       };
 
       const commentUseCase = new CommentUseCase({});
@@ -88,6 +89,7 @@ describe('CommentUseCase', () => {
       const useCasePayload = {
         commentId: 'comment-123',
         threadId: 'thread-123',
+        owner: 'user-123',
       };
 
       const mockCommentRepository = new CommentRepository();

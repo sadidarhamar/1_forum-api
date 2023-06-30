@@ -108,7 +108,7 @@ describe('ThreadUseCase', () => {
               content: 'sebuah comment',
               username: 'dicoding',
               date: '2021-08-08T07:59:18.982Z',
-              is_delete: true,
+              is_delete: false,
             },
           ])
         );
@@ -147,7 +147,7 @@ describe('ThreadUseCase', () => {
       });
 
       const actualResult = await threadUseCase.getThreadDetailsById(
-        useCasePayload
+        useCasePayload.threadId
       );
 
       expect(actualResult).toEqual(expectedResult);
