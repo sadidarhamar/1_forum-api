@@ -75,8 +75,6 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     if (!result.rowCount) {
       throw new NotFoundError('balasan komentar tidak ditemukan');
     }
-
-    return result.rows;
   }
 
   async verifyReplyOwner({ replyId, owner }) {
@@ -90,8 +88,6 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     if (!result.rowCount) {
       throw new AuthorizationError(`balasan komentar ini tidak bisa diubah`);
     }
-
-    return result.rows;
   }
 }
 

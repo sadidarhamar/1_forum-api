@@ -74,8 +74,6 @@ class CommentRepositoryPostgres extends CommentRepository {
     if (!result.rowCount) {
       throw new NotFoundError('komentar tidak ditemukan');
     }
-
-    return result.rows;
   }
 
   async verifyCommentOwner({ commentId, owner }) {
@@ -89,8 +87,6 @@ class CommentRepositoryPostgres extends CommentRepository {
     if (!result.rowCount) {
       throw new AuthorizationError(`komentar ini tidak bisa diubah`);
     }
-
-    return result.rows;
   }
 }
 

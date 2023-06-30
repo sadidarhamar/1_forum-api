@@ -144,7 +144,7 @@ describe('ReplyRepositoryPostgres', () => {
       ).rejects.toThrowError(NotFoundError);
     });
 
-    it('should return true when reply is found', async () => {
+    it('should resolved when reply is found', async () => {
       const newReply = new NewReply({
         content: 'balasan',
         commentId: 'comment-123',
@@ -160,11 +160,9 @@ describe('ReplyRepositoryPostgres', () => {
 
       await replyRepositoryPostgres.addReply(newReply);
 
-      const isReplyExist = await replyRepositoryPostgres.verifyReplyExist(
-        'reply-123'
-      );
-
-      expect(isReplyExist).toBeTruthy();
+      await expect(
+        replyRepositoryPostgres.verifyReplyExist('reply-123')
+      ).resolves.not.toThrowError(NotFoundError);
     });
   });
 
@@ -181,7 +179,7 @@ describe('ReplyRepositoryPostgres', () => {
       ).rejects.toThrowError(AuthorizationError);
     });
 
-    it('should return true when owner reply is the same with payload ', async () => {
+    it('should resolved when owner reply is the same with payload ', async () => {
       const newReply = new NewReply({
         content: 'balasan',
         commentId: 'comment-123',
@@ -197,12 +195,12 @@ describe('ReplyRepositoryPostgres', () => {
 
       await replyRepositoryPostgres.addReply(newReply);
 
-      const isReplyOwner = await replyRepositoryPostgres.verifyReplyOwner({
-        replyId: 'reply-123',
-        owner: 'user-123',
-      });
-
-      expect(isReplyOwner).toBeTruthy();
+      await expect(
+        replyRepositoryPostgres.verifyReplyOwner({
+          replyId: 'reply-123',
+          owner: 'user-123',
+        })
+      ).resolves.not.toThrowError(AuthorizationError);
     });
   });
 });

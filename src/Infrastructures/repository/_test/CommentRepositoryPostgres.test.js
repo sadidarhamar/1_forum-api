@@ -145,7 +145,7 @@ describe('CommentRepositoryPostgres', () => {
       ).rejects.toThrowError(NotFoundError);
     });
 
-    it('should return true when comment is found', async () => {
+    it('should resolved when comment is found', async () => {
       const newComment = new NewComment({
         content: 'isi komentar',
         threadId: 'thread-123',
@@ -160,11 +160,9 @@ describe('CommentRepositoryPostgres', () => {
 
       await commentRepositoryPostgres.addComment(newComment);
 
-      const isCommentExist = await commentRepositoryPostgres.verifyCommentExist(
-        'comment-123'
-      );
-
-      expect(isCommentExist).toBeTruthy();
+      await expect(
+        commentRepositoryPostgres.verifyCommentExist('comment-123')
+      ).resolves.not.toThrowError(NotFoundError);
     });
   });
 
@@ -181,7 +179,7 @@ describe('CommentRepositoryPostgres', () => {
       ).rejects.toThrowError(AuthorizationError);
     });
 
-    it('should return true when owner comment is the same with payload', async () => {
+    it('should resolved when owner comment is the same with payload', async () => {
       const newComment = new NewComment({
         content: 'isi komentar',
         threadId: 'thread-123',
@@ -196,11 +194,12 @@ describe('CommentRepositoryPostgres', () => {
 
       await commentRepositoryPostgres.addComment(newComment);
 
-      const isCommentOwner = await commentRepositoryPostgres.verifyCommentOwner(
-        { commentId: 'comment-123', owner: 'user-123' }
-      );
-
-      expect(isCommentOwner).toBeTruthy();
+      await expect(
+        commentRepositoryPostgres.verifyCommentOwner({
+          commentId: 'comment-123',
+          owner: 'user-123',
+        })
+      ).resolves.not.toThrowError(AuthorizationError);
     });
   });
 });
