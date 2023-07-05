@@ -79,16 +79,16 @@ describe('ReplyUseCase', () => {
       await expect(
         replyUseCase.deleteReply(useCasePayload)
       ).rejects.toThrowError(
-        'DELETE_REPLY_USE_CASE.NOT_CONTAIN_REPLY_ID_OR_THREAD_ID_OR_COMMENT_I'
+        'DELETE_REPLY_USE_CASE.NOT_CONTAIN_REPLY_ID_OR_THREAD_ID_OR_COMMENT_ID_OR_OWNER'
       );
     });
 
     it('should throw error if needed property not string', async () => {
       const useCasePayload = {
         replyId: 123,
-        commentId: 354,
-        threadId: true,
-        owner: false,
+        commentId: 123,
+        threadId: 123,
+        owner: 123,
       };
 
       const replyUseCase = new ReplyUseCase({});
@@ -96,7 +96,13 @@ describe('ReplyUseCase', () => {
       await expect(
         replyUseCase.deleteReply(useCasePayload)
       ).rejects.toThrowError(
-        'DELETE_REPLY_USE_CASE.NOT_CONTAIN_REPLY_ID_OR_THREAD_ID_OR_COMMENT_ID_OR_OWNER'
+        'DELETE_REPLY_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION'
+      );
+
+      await expect(
+        replyUseCase.deleteReply(useCasePayload)
+      ).rejects.toThrowError(
+        'DELETE_REPLY_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION'
       );
     });
 

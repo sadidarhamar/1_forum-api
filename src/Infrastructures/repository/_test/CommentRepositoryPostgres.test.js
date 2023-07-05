@@ -84,20 +84,34 @@ describe('CommentRepositoryPostgres', () => {
     });
 
     it('should return comment detail correctly', async () => {
-      await CommentsTableTestHelper.addComment({});
+      const expectedResult = {
+        content: 'komentar',
+        id: 'comment-123',
+        thread_id: 'thread-123',
+        username: 'SomeUser',
+      };
+
+      const addedComment = await CommentsTableTestHelper.addComment({});
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       const comment = await commentRepositoryPostgres.getCommentById(
         'comment-123'
       );
 
-      expect(comment.id).toEqual('comment-123');
+      expect(comment).toEqual({ ...expectedResult, date: addedComment.date });
     });
   });
 
   describe('getCommentsByThreadId', () => {
     it('should return comment detail correctly', async () => {
-      await CommentsTableTestHelper.addComment({});
+      const expectedResult = {
+        id: 'comment-123',
+        content: 'komentar',
+        username: 'SomeUser',
+        is_delete: false,
+      };
+
+      const addedComment = await CommentsTableTestHelper.addComment({});
       const commentRepositoryPostgres = new CommentRepositoryPostgres(pool, {});
 
       const comment = await commentRepositoryPostgres.getCommentsByThreadId(
@@ -105,6 +119,10 @@ describe('CommentRepositoryPostgres', () => {
       );
 
       expect(comment).toHaveLength(1);
+      expect(comment[0]).toStrictEqual({
+        ...expectedResult,
+        date: addedComment.date,
+      });
     });
   });
 

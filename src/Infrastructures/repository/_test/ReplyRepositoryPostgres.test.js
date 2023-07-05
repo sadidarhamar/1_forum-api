@@ -13,7 +13,7 @@ describe('ReplyRepositoryPostgres', () => {
   beforeEach(async () => {
     await UsersTableTestHelper.addUser({
       id: 'user-123',
-      username: 'SomeUser',
+      username: 'dicoding',
     });
     await ThreadsTableTestHelper.addThread({});
     await CommentsTableTestHelper.addComment({});
@@ -84,18 +84,38 @@ describe('ReplyRepositoryPostgres', () => {
     });
 
     it('should return reply detail correctly', async () => {
-      await RepliesTableTestHelper.addReply({});
+      const expectedResult = {
+        comment_id: 'comment-123',
+        content: 'balasan komentar',
+        id: 'reply-123',
+        thread_id: 'thread-123',
+        username: 'dicoding',
+      };
+
+      const addedReply = await RepliesTableTestHelper.addReply({});
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
       const reply = await replyRepositoryPostgres.getReplyById('reply-123');
 
-      expect(reply.id).toEqual('reply-123');
+      expect(reply).toEqual({
+        ...expectedResult,
+        date: addedReply.date,
+      });
     });
   });
 
   describe('getRepliesByCommentId', () => {
     it('should return reply detail correctly', async () => {
-      await RepliesTableTestHelper.addReply({});
+      const expectedResult = {
+        id: 'reply-123',
+        comment_id: 'comment-123',
+        thread_id: 'thread-123',
+        content: 'balasan komentar',
+        username: 'dicoding',
+        is_delete: false,
+      };
+
+      const addedReply = await RepliesTableTestHelper.addReply({});
       const replyRepositoryPostgres = new ReplyRepositoryPostgres(pool, {});
 
       const reply = await replyRepositoryPostgres.getRepliesByCommentId(
@@ -103,6 +123,10 @@ describe('ReplyRepositoryPostgres', () => {
       );
 
       expect(reply).toHaveLength(1);
+      expect(reply[0]).toStrictEqual({
+        ...expectedResult,
+        date: addedReply.date,
+      });
     });
   });
 

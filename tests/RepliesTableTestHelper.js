@@ -10,7 +10,7 @@ const RepliesTableTestHelper = {
     owner = 'user-123',
   }) {
     const query = {
-      text: 'INSERT INTO replies VALUES($1, $2, $3, $4, $5) RETURNING id, thread_id, owner',
+      text: 'INSERT INTO replies VALUES($1, $2, $3, $4, $5) RETURNING id, thread_id, owner, date',
       values: [id, threadId, commentId, content, owner],
     };
 

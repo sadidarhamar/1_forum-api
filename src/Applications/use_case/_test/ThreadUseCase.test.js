@@ -83,6 +83,26 @@ describe('ThreadUseCase', () => {
             ],
             content: 'sebuah comment',
           },
+          {
+            id: 'comment-1234',
+            username: 'dicoding',
+            date: '2021-08-08T07:59:18.982Z',
+            replies: [
+              {
+                id: 'reply-123',
+                content: '**balasan telah dihapus**',
+                date: '2021-08-08T07:59:48.766Z',
+                username: 'johndoe',
+              },
+              {
+                id: 'reply-xNBtm9HPR-492AeiimpfN',
+                content: 'sebuah balasan',
+                date: '2021-08-08T08:07:01.522Z',
+                username: 'dicoding',
+              },
+            ],
+            content: '**komentar telah dihapus**',
+          },
         ],
       };
 
@@ -109,6 +129,13 @@ describe('ThreadUseCase', () => {
               username: 'dicoding',
               date: '2021-08-08T07:59:18.982Z',
               is_delete: false,
+            },
+            {
+              id: 'comment-1234',
+              content: 'sebuah comment2',
+              username: 'dicoding',
+              date: '2021-08-08T07:59:18.982Z',
+              is_delete: true,
             },
           ])
         );
@@ -138,7 +165,57 @@ describe('ThreadUseCase', () => {
         );
       mockThreadRepository.getThreadDetailsById = jest
         .fn()
-        .mockImplementation(() => Promise.resolve());
+        .mockImplementation(() =>
+          Promise.resolve({
+            id: 'thread-123',
+            title: 'sebuah thread',
+            body: 'sebuah body thread',
+            date: '2021-08-08T07:59:16.198Z',
+            username: 'dicoding',
+            comments: [
+              {
+                id: 'comment-123',
+                username: 'dicoding',
+                date: '2021-08-08T07:59:18.982Z',
+                replies: [
+                  {
+                    id: 'reply-123',
+                    content: '**balasan telah dihapus**',
+                    date: '2021-08-08T07:59:48.766Z',
+                    username: 'johndoe',
+                  },
+                  {
+                    id: 'reply-xNBtm9HPR-492AeiimpfN',
+                    content: 'sebuah balasan',
+                    date: '2021-08-08T08:07:01.522Z',
+                    username: 'dicoding',
+                  },
+                ],
+                content: 'sebuah comment',
+              },
+              {
+                id: 'comment-1234',
+                username: 'dicoding',
+                date: '2021-08-08T07:59:18.982Z',
+                replies: [
+                  {
+                    id: 'reply-123',
+                    content: '**balasan telah dihapus**',
+                    date: '2021-08-08T07:59:48.766Z',
+                    username: 'johndoe',
+                  },
+                  {
+                    id: 'reply-xNBtm9HPR-492AeiimpfN',
+                    content: 'sebuah balasan',
+                    date: '2021-08-08T08:07:01.522Z',
+                    username: 'dicoding',
+                  },
+                ],
+                content: 'sebuah comment2',
+              },
+            ],
+          })
+        );
 
       const threadUseCase = new ThreadUseCase({
         threadRepository: mockThreadRepository,
