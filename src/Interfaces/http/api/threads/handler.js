@@ -1,11 +1,11 @@
 const ThreadUseCase = require('../../../../Applications/use_case/ThreadUseCase');
+
 class ThreadsHandler {
   constructor(container) {
     this._container = container;
 
     this.postThreadHandler = this.postThreadHandler.bind(this);
-    this.getThreadDetailsByIdHandler =
-      this.getThreadDetailsByIdHandler.bind(this);
+    this.getThreadDetailsByIdHandler = this.getThreadDetailsByIdHandler.bind(this);
   }
 
   async postThreadHandler(request, h) {

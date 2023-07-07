@@ -30,12 +30,6 @@ class CommentsHandler {
     return response;
   }
 
-  async getCommentById(request, h) {
-    const { commentId } = request.params;
-
-    const getCommentByIdUseCase = this._container.getInstance(GetCommentByd);
-  }
-
   async deleteCommentHandler(request, h) {
     const { id: owner } = request.auth.credentials;
     const { commentId, threadId } = request.params;

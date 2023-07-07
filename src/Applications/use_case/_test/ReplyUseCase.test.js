@@ -1,22 +1,22 @@
-const NewReply = require('../../../Domains/replies/entities/NewReply');
-const NewlyAddedReply = require('../../../Domains/replies/entities/NewlyAddedReply');
-const CommentRepository = require('../../../Domains/comments/CommentRepository');
-const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
-const ReplyRepository = require('../../../Domains/replies/ReplyRepository');
-const ReplyUseCase = require('../ReplyUseCase');
+const NewReply = require("../../../Domains/replies/entities/NewReply");
+const NewlyAddedReply = require("../../../Domains/replies/entities/NewlyAddedReply");
+const CommentRepository = require("../../../Domains/comments/CommentRepository");
+const ThreadRepository = require("../../../Domains/threads/ThreadRepository");
+const ReplyRepository = require("../../../Domains/replies/ReplyRepository");
+const ReplyUseCase = require("../ReplyUseCase");
 
-describe('ReplyUseCase', () => {
-  describe('AddReply', () => {
-    it('should orchestrating the add reply action correctly', async () => {
+describe("ReplyUseCase", () => {
+  describe("AddReply", () => {
+    it("should orchestrating the add reply action correctly", async () => {
       const useCasePayload = {
-        threadId: 'thread-123',
-        commentId: 'comment-123',
-        content: 'balasan dari komen 123',
-        owner: 'test1',
+        threadId: "thread-123",
+        commentId: "comment-123",
+        content: "balasan dari komen 123",
+        owner: "test1",
       };
 
       const mockNewlyAddedReply = new NewlyAddedReply({
-        id: 'reply-123',
+        id: "reply-123",
         threadId: useCasePayload.threadId,
         commentId: useCasePayload.commentId,
         content: useCasePayload.content,
@@ -27,15 +27,13 @@ describe('ReplyUseCase', () => {
       const mockThreadRepository = new ThreadRepository();
       const mockCommentRepository = new CommentRepository();
 
-      mockThreadRepository.verifyThreadExist = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve());
-      mockCommentRepository.verifyCommentExist = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve());
-      mockReplyRepository.addReply = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve(mockNewlyAddedReply));
+      mockThreadRepository.verifyThreadExist = jest.fn(() => Promise.resolve());
+      mockCommentRepository.verifyCommentExist = jest.fn(() =>
+        Promise.resolve()
+      );
+      mockReplyRepository.addReply = jest.fn(() =>
+        Promise.resolve(mockNewlyAddedReply)
+      );
 
       const replyUseCase = new ReplyUseCase({
         replyRepository: mockReplyRepository,
@@ -47,7 +45,7 @@ describe('ReplyUseCase', () => {
 
       expect(newlyAddedReply).toStrictEqual(
         new NewlyAddedReply({
-          id: 'reply-123',
+          id: "reply-123",
           content: useCasePayload.content,
           owner: useCasePayload.owner,
         })
@@ -71,19 +69,19 @@ describe('ReplyUseCase', () => {
     });
   });
 
-  describe('deleteReply', () => {
-    it('should throw error if use case payload not contain replyId', async () => {
+  describe("deleteReply", () => {
+    it("should throw error if use case payload not contain replyId", async () => {
       const useCasePayload = {};
       const replyUseCase = new ReplyUseCase({});
 
       await expect(
         replyUseCase.deleteReply(useCasePayload)
       ).rejects.toThrowError(
-        'DELETE_REPLY_USE_CASE.NOT_CONTAIN_REPLY_ID_OR_THREAD_ID_OR_COMMENT_ID_OR_OWNER'
+        "DELETE_REPLY_USE_CASE.NOT_CONTAIN_REPLY_ID_OR_THREAD_ID_OR_COMMENT_ID_OR_OWNER"
       );
     });
 
-    it('should throw error if needed property not string', async () => {
+    it("should throw error if needed property not string", async () => {
       const useCasePayload = {
         replyId: 123,
         commentId: 123,
@@ -96,43 +94,35 @@ describe('ReplyUseCase', () => {
       await expect(
         replyUseCase.deleteReply(useCasePayload)
       ).rejects.toThrowError(
-        'DELETE_REPLY_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION'
+        "DELETE_REPLY_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION"
       );
 
       await expect(
         replyUseCase.deleteReply(useCasePayload)
       ).rejects.toThrowError(
-        'DELETE_REPLY_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION'
+        "DELETE_REPLY_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION"
       );
     });
 
-    it('should orchestrating the delete reply action correctly', async () => {
+    it("should orchestrating the delete reply action correctly", async () => {
       const useCasePayload = {
-        replyId: 'reply-123',
-        commentId: 'comment-123',
-        threadId: 'thread-123',
-        owner: 'user-123',
+        replyId: "reply-123",
+        commentId: "comment-123",
+        threadId: "thread-123",
+        owner: "user-123",
       };
 
       const mockReplyRepository = new ReplyRepository();
       const mockCommentRepository = new CommentRepository();
       const mockThreadRepository = new ThreadRepository();
 
-      mockThreadRepository.verifyThreadExist = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve());
-      mockCommentRepository.verifyCommentExist = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve());
-      mockReplyRepository.verifyReplyExist = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve());
-      mockReplyRepository.verifyReplyOwner = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve());
-      mockReplyRepository.deleteReply = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve());
+      mockThreadRepository.verifyThreadExist = jest.fn(() => Promise.resolve());
+      mockCommentRepository.verifyCommentExist = jest.fn(() =>
+        Promise.resolve()
+      );
+      mockReplyRepository.verifyReplyExist = jest.fn(() => Promise.resolve());
+      mockReplyRepository.verifyReplyOwner = jest.fn(() => Promise.resolve());
+      mockReplyRepository.deleteReply = jest.fn(() => Promise.resolve());
 
       const replyUseCase = new ReplyUseCase({
         commentRepository: mockCommentRepository,

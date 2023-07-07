@@ -15,13 +15,13 @@ class ThreadUseCase {
   async getThreadDetailsById(useCasePayload) {
     const thread = await this._threadRepository.getThreadById(useCasePayload);
     const comments = await this._commentRepository.getCommentsByThreadId(
-      useCasePayload
+      useCasePayload,
     );
 
     const repliedComment = await Promise.all(
       comments.map(async (comment) => {
         const replies = await this._replyRepository.getRepliesByCommentId(
-          comment.id
+          comment.id,
         );
         const filteredReplies = replies.map((replyObj) => {
           if (replyObj.is_delete) {
@@ -31,14 +31,13 @@ class ThreadUseCase {
               date: replyObj.date,
               username: replyObj.username,
             };
-          } else {
-            return {
-              id: replyObj.id,
-              content: replyObj.content,
-              date: replyObj.date,
-              username: replyObj.username,
-            };
           }
+          return {
+            id: replyObj.id,
+            content: replyObj.content,
+            date: replyObj.date,
+            username: replyObj.username,
+          };
         });
         return {
           id: comment.id,
@@ -48,7 +47,7 @@ class ThreadUseCase {
           content: comment.content,
           is_delete: comment.is_delete,
         };
-      })
+      }),
     );
 
     const filteredComment = repliedComment
@@ -61,15 +60,14 @@ class ThreadUseCase {
             content: '**komentar telah dihapus**',
             replies: obj.replies,
           };
-        } else {
-          return {
-            id: obj.id,
-            username: obj.username,
-            date: obj.date,
-            content: obj.content,
-            replies: obj.replies,
-          };
         }
+        return {
+          id: obj.id,
+          username: obj.username,
+          date: obj.date,
+          content: obj.content,
+          replies: obj.replies,
+        };
       })
       .filter(({ is_delete }) => !is_delete);
 

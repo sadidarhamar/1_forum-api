@@ -15,9 +15,9 @@ class NewComment {
     }
 
     if (
-      typeof threadId !== 'string' ||
-      typeof content !== 'string' ||
-      typeof owner !== 'string'
+      typeof threadId !== 'string'
+      || typeof content !== 'string'
+      || typeof owner !== 'string'
     ) {
       throw new Error('NEW_COMMENT.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }

@@ -15,9 +15,9 @@ class NewlyAddedThread {
     }
 
     if (
-      typeof id !== 'string' ||
-      typeof title !== 'string' ||
-      typeof owner !== 'string'
+      typeof id !== 'string'
+      || typeof title !== 'string'
+      || typeof owner !== 'string'
     ) {
       throw new Error('NEWLY_ADDED_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }

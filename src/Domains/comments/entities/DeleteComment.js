@@ -12,17 +12,17 @@ class DeleteComment {
   _verifyPayload({ threadId, commentId, owner }) {
     if (!commentId || !threadId || !owner) {
       throw new Error(
-        'DELETE_COMMENT_USE_CASE.NOT_CONTAIN_COMMENT_ID_OR_THREAD_ID_OR_OWNER'
+        'DELETE_COMMENT_USE_CASE.NOT_CONTAIN_COMMENT_ID_OR_THREAD_ID_OR_OWNER',
       );
     }
 
     if (
-      typeof commentId !== 'string' ||
-      typeof threadId !== 'string' ||
-      typeof owner !== 'string'
+      typeof commentId !== 'string'
+      || typeof threadId !== 'string'
+      || typeof owner !== 'string'
     ) {
       throw new Error(
-        'DELETE_COMMENT_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION'
+        'DELETE_COMMENT_USE_CASE.PAYLOAD_NOT_MEET_DATA_TYPE_SPECIFICATION',
       );
     }
   }

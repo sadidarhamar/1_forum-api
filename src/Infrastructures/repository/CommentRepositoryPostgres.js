@@ -85,7 +85,7 @@ class CommentRepositoryPostgres extends CommentRepository {
     const result = await this._pool.query(query);
 
     if (!result.rowCount) {
-      throw new AuthorizationError(`komentar ini tidak bisa diubah`);
+      throw new AuthorizationError('komentar ini tidak bisa diubah');
     }
   }
 }

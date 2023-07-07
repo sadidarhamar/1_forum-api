@@ -11,7 +11,9 @@ class ReplyRepositoryPostgres extends ReplyRepository {
   }
 
   async addReply(newReply) {
-    const { threadId, commentId, content, owner } = newReply;
+    const {
+      threadId, commentId, content, owner,
+    } = newReply;
 
     const id = `reply-${this._idGenerator()}`;
 
@@ -86,7 +88,7 @@ class ReplyRepositoryPostgres extends ReplyRepository {
     const result = await this._pool.query(query);
 
     if (!result.rowCount) {
-      throw new AuthorizationError(`balasan komentar ini tidak bisa diubah`);
+      throw new AuthorizationError('balasan komentar ini tidak bisa diubah');
     }
   }
 }
